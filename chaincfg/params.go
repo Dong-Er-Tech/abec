@@ -694,9 +694,9 @@ var SimNetParams = Params{
 	BlockHeightDSA: 284000,
 
 	// BlockHeightMLP specifies the block height from which MLP and AUT are supported.
-	// ToDo(MLP):
-	BlockHeightMLPAUT:       1000,
-	BlockHeightMLPAUTCOMMIT: 2000,
+	// Set to 0 for simnet so pseudonymCT addresses and AUT work from genesis.
+	BlockHeightMLPAUT:       0,
+	BlockHeightMLPAUTCOMMIT: 0,
 
 	// BlockHeightEra2Start specifies the start height of Era 2.
 	// From BlockHeightEra2Start, Abelian applies AIP0012.
@@ -705,11 +705,11 @@ var SimNetParams = Params{
 	BlockHeightEra2Start: 400000,
 
 	// BlockHeightAconcagua specifies the block height from which Aconcagua fork starts.
-	BlockHeightAconcagua: 464_000,
+	BlockHeightAconcagua: 0,
 	BlockHashAconcagua:   "",
 	// BlockHeightAconcaguaCommit specifies the block height
 	// from which new transactions with version before TxVersion_Height_450000_Aconcagua will not be accepted anymore.
-	BlockHeightAconcaguaCommit: 480_000,
+	BlockHeightAconcaguaCommit: 0,
 }
 
 var (
