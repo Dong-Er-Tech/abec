@@ -705,11 +705,11 @@ var SimNetParams = Params{
 	BlockHeightEra2Start: 400000,
 
 	// BlockHeightAconcagua specifies the block height from which Aconcagua fork starts.
-	BlockHeightAconcagua: 0,
+	BlockHeightAconcagua: 464_000,
 	BlockHashAconcagua:   "",
 	// BlockHeightAconcaguaCommit specifies the block height
 	// from which new transactions with version before TxVersion_Height_450000_Aconcagua will not be accepted anymore.
-	BlockHeightAconcaguaCommit: 0,
+	BlockHeightAconcaguaCommit: 480_000,
 }
 
 var (
