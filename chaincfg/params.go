@@ -694,9 +694,9 @@ var SimNetParams = Params{
 	BlockHeightDSA: 284000,
 
 	// BlockHeightMLP specifies the block height from which MLP and AUT are supported.
-	// Set to 0 for simnet so pseudonymCT addresses and AUT work from genesis.
-	BlockHeightMLPAUT:       0,
-	BlockHeightMLPAUTCOMMIT: 0,
+	// ToDo(MLP):
+	BlockHeightMLPAUT:       1000,
+	BlockHeightMLPAUTCOMMIT: 2000,
 
 	// BlockHeightEra2Start specifies the start height of Era 2.
 	// From BlockHeightEra2Start, Abelian applies AIP0012.
