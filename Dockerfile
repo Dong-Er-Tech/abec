@@ -11,12 +11,18 @@ RUN git clone --depth 1 https://github.com/cryptosuite/liboqs.git /tmp/liboqs &&
     mkdir -p /usr/lib/pkgconfig && \
     printf 'prefix=/usr\nlibdir=${prefix}/lib\nincludedir=${prefix}/include\nName: liboqs\nDescription: Open Quantum Safe library\nVersion: 0.7.2\nLibs: -L${libdir} -loqs\nCflags: -I${includedir}\n' > /usr/lib/pkgconfig/liboqs.pc
 
-WORKDIR /app
+# Build abec
+WORKDIR /app/abec
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
 RUN CGO_ENABLED=1 go build -ldflags '-s -w' -o /usr/local/bin/abec .
 RUN CGO_ENABLED=1 go build -ldflags '-s -w' -o /usr/local/bin/abectl ./cmd/abectl
+
+# Build abewalletmlp
+WORKDIR /app/abewalletmlp
+RUN git clone --depth 1 https://github.com/pqabelian/abewalletmlp.git . && \
+    CGO_ENABLED=1 go build -ldflags '-s -w' -o /usr/local/bin/abewalletmlp .
 
 FROM alpine:3.20
 
@@ -25,9 +31,10 @@ RUN apk add --no-cache libstdc++ libgcc ca-certificates tzdata
 COPY --from=builder /usr/lib/liboqs* /usr/lib/
 COPY --from=builder /usr/local/bin/abec /usr/local/bin/abec
 COPY --from=builder /usr/local/bin/abectl /usr/local/bin/abectl
+COPY --from=builder /usr/local/bin/abewalletmlp /usr/local/bin/abewalletmlp
 
-RUN mkdir -p /root/.abec
+RUN mkdir -p /root/.abec /root/.abewalletmlp
 
-EXPOSE 8667 8668 18667 18668 8333 18333
+EXPOSE 8667 8668 18667 18668 18888 18889 8333
 
 ENTRYPOINT ["abec"]
