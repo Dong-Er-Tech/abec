@@ -25,6 +25,9 @@ RUN git clone --depth 1 https://github.com/pqabelian/abewalletmlp.git . && \
     CGO_ENABLED=1 go build -ldflags '-s -w' -o /usr/local/bin/abewalletmlp .
 
 # Build abewallet (legacy/scheme 0 wallet, needed for mining before height 1000)
+# Uses Go 1.21 since abewallet was written for older Go versions
+FROM golang:1.21-alpine AS wallet-builder
+RUN apk add --no-cache git
 WORKDIR /app/abewallet
 RUN git clone --depth 1 https://github.com/pqabelian/abewallet.git . && \
     CGO_ENABLED=0 go build -ldflags '-s -w' -o /usr/local/bin/abewallet .
@@ -37,7 +40,7 @@ COPY --from=builder /usr/lib/liboqs* /usr/lib/
 COPY --from=builder /usr/local/bin/abec /usr/local/bin/abec
 COPY --from=builder /usr/local/bin/abectl /usr/local/bin/abectl
 COPY --from=builder /usr/local/bin/abewalletmlp /usr/local/bin/abewalletmlp
-COPY --from=builder /usr/local/bin/abewallet /usr/local/bin/abewallet
+COPY --from=wallet-builder /usr/local/bin/abewallet /usr/local/bin/abewallet
 
 RUN mkdir -p /root/.abec /root/.abewalletmlp
 
